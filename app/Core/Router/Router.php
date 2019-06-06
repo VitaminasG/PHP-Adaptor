@@ -10,7 +10,21 @@ class Router
      *
      * @var array
      */
-    public $routes = [];
+    protected $routes = [];
+
+    /**
+     * Controller namespace.
+     *
+     * @var string
+     */
+    protected $controller = null;
+
+    /**
+     * Controller method name.
+     *
+     * @var string
+     */
+    protected $action = null;
 
     /**
      * The instance of Router.
@@ -38,10 +52,74 @@ class Router
             return $this->notFound();
         }
 
+        $this->divider($this->routes[$methodType][$uri]);
+
         return $this->callAction(
 
-            ...explode("@", $this->routes[$methodType][$uri])
+            $this->getController(),
+            $this->getAction()
+
         );
+    }
+
+    /**
+     * Split and assign string.
+     *
+     * @param string $string
+     */
+    protected function divider(string $string)
+    {
+
+        list($left, $right) = explode('@', $string);
+
+        $this->setController($left);
+        $this->setAction($right);
+    }
+
+    /**
+     * Set a Controller namespace.
+     *
+     * @param string $controllerName
+     */
+    protected function setController(string $controllerName)
+    {
+
+        $controllerPath = sprintf('\App\%s', $controllerName);
+
+        $this->controller = $controllerPath;
+    }
+
+    /**
+     * Get a Controller namespace.
+     *
+     * @return string
+     */
+    protected function getController()
+    {
+
+        return $this->controller;
+    }
+
+    /**
+     * Set a Controller method name.
+     *
+     * @param string $actionName
+     */
+    protected function setAction(string $actionName)
+    {
+
+        $this->action = $actionName;
+    }
+
+    /**
+     * Get a Controller method name.
+     *
+     * @return string
+     */
+    protected function getAction()
+    {
+
+        return $this->action;
     }
 
     /**
@@ -53,6 +131,7 @@ class Router
      */
     public function callAction($controller, $action = [])
     {
+
         $obj = new $controller;
 
         return call_user_func_array([$obj, $action], [ $parameters = [] ] );
@@ -65,7 +144,7 @@ class Router
      */
     public function notFound(){
 
-        $controller = new \App\Core\BaseController();
+        $controller = new \App\Core\Controller();
 
         return $this->callAction($controller, 'notFound');
     }

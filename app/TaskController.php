@@ -2,11 +2,11 @@
 
 namespace App;
 
-use App\Core\BaseController;
+use App\Core\Controller;
 use App\Core\View;
 use Exception;
 
-class Controller extends BaseController
+class TaskController extends Controller
 {
 
     public function __construct()

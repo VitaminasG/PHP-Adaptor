@@ -8,4 +8,4 @@ use App\Core\BaseRouter as Router;
  * ================
  */
 
-Router::get('', 'App\Controller@index');
+Router::get('', 'TaskController@index');
