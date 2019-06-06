@@ -1,7 +1,7 @@
 <?php
 
 use App\Core\View;
-use App\Container as App;
+use App\Core\Container as App;
 
 /**
  * Render a view for presentation.

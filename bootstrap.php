@@ -1,6 +1,6 @@
 <?php
 
-use App\Container as App;
+use App\Core\Container as App;
 
 /**
  * ===========================
