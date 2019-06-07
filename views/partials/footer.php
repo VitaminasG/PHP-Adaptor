@@ -1,5 +1,5 @@
 <footer class="mastfoot mt-auto">
     <div class="inner">
-        <p>Demo page template</p>
+        <p>PHP Adaptor Design Pattern @ 2019</p>
     </div>
 </footer>

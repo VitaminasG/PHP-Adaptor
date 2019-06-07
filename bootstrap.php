@@ -10,8 +10,4 @@ use App\Core\Container as App;
 
 $app = new App();
 
-//$csv = new \App\Adaptors\CsvFileAdapter(new \App\Handler\Csv());
-//
-//$csv->getContent();
-
 $app->direct();

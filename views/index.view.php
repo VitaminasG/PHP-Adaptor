@@ -7,8 +7,14 @@
 
     <main role="main" class="inner cover">
         <h1 class="cover-heading">{slogan}</h1>
-        <p class="lead">Cover is a one-page template for building simple and beautiful home pages.
-            Download, edit the text, and add your own fullscreen background photo to make it your own.
+        <p>
+            Application providing an implementation of adaptor design pattern.
+            A system can handle files with extension - *.csv, *.xml and *.json.
+            There are three different approaches to handle a data from and
+            to a file. <strong>First</strong> - get a raw data from file and display.
+            <strong>Second</strong> - write provided array to chosen file
+            extension. <strong>Third</strong> - with Http extension request,
+            get a different data response.
         </p>
     </main>
 

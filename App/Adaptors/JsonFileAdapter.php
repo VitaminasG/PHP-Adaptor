@@ -26,7 +26,7 @@ class JsonFileAdapter implements FileSystem
 
     public function getContent()
     {
-        // TODO: Implement getContent() method.
+        return $this->json->fetchContent();
     }
 
     public function read()
