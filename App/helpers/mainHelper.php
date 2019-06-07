@@ -13,13 +13,29 @@ function dd( ...$var ) {
 }
 
 /**
+ * Print human-readable way and Die.
+ *
+ * @param $var mixed
+ */
+function pp( $var ) {
+
+    echo "<pre>";
+
+    print_r($var);
+
+    echo "</pre>";
+
+    die();
+}
+
+/**
  * Get Root folder.
  *
  * @return string
  */
 function basePath() {
 
-    return $_SERVER["DOCUMENT_ROOT"] . "/../";
+    return $_SERVER["DOCUMENT_ROOT"] . "../";
 }
 
 /**

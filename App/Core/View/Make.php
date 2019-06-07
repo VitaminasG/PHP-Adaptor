@@ -148,6 +148,9 @@ class Make
     /**
      * Replace tags with required data.
      *
+     * @param $context
+     *
+     * @return mixed
      * @throws Exception
      */
     protected function replace($context)

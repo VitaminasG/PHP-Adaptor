@@ -4,7 +4,7 @@ namespace App\Core;
 
 use Exception;
 
-Abstract class BaseController
+abstract class BaseController
 {
 
     /**

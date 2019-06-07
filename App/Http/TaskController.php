@@ -14,7 +14,6 @@ class TaskController extends Controller
         //
     }
 
-
     /**
      * Get the main Page.
      *
