@@ -5,6 +5,7 @@ namespace App\Handler;
 
 
 use App\Interfaces\iJson;
+use App\pathFinder;
 
 /**
  * Usage of JSON file handler class.
@@ -12,13 +13,21 @@ use App\Interfaces\iJson;
  */
 class Json implements iJson
 {
+    use pathFinder;
 
     /**
      * Full file path.
      *
      * @var string
      */
-    protected $filePath;
+    private $filePath;
+
+    /**
+     * File extension name.
+     *
+     * @var string
+     */
+    private $extension = '.json';
 
     /**
      * Fetched data from file.
@@ -30,10 +39,11 @@ class Json implements iJson
     /**
      * Create a JSON File Handler instance.
      *
+     * @throws \Exception if unable to get a file.
      */
     public function __construct()
     {
-        $this->filePath = basePath() . "files/data.json";
+        $this->filePath = $this->getFilePath($this->extension);
     }
 
     /**

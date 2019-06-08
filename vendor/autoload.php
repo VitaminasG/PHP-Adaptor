@@ -17,7 +17,8 @@ $loader->register();
 // register the base directories for the namespace prefix
 $loader->addNamespace('App', '../App/');
 $loader->addNamespace('App', '../App/Http');
-$loader->addNamespace('App\Core', '../App/Core');
+$loader->addNamespace('App', '../App/Traits');
+$loader->addNamespace('App\Core', '../App/Core/');
 $loader->addNamespace('App\Core', '../App/Core/Controller');
 $loader->addNamespace('App\Core', '../App/Core/Router');
 $loader->addNamespace('App\Core', '../App/Core/View');

@@ -5,23 +5,29 @@ namespace App\Handler;
 
 
 use App\Interfaces\iXml;
+use App\pathFinder;
 
 /**
  * Usage of XML file handler class.
  *
- * print_r($xml->fetchContent());
- * die();
- *
  */
-
 class Xml implements iXml
 {
+    use pathFinder;
+
     /**
      * Full file path.
      *
      * @var string
      */
-    protected $filePath;
+    private $filePath;
+
+    /**
+     * File extension name.
+     *
+     * @var string
+     */
+    private $extension = '.xml';
 
     /**
      * Fetched data from file.
@@ -33,10 +39,11 @@ class Xml implements iXml
     /**
      * Create a XML File Handler instance.
      *
+     * @throws \Exception if unable to get a file.
      */
     public function __construct()
     {
-        $this->filePath = basePath() . "files/data.xml";
+        $this->filePath = $this->getFilePath($this->extension);
     }
 
     /**

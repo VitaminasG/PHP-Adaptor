@@ -4,6 +4,7 @@
 namespace App\Handler;
 
 
+use App\pathFinder;
 use App\Interfaces\iCsv;
 
 /**
@@ -34,12 +35,21 @@ use App\Interfaces\iCsv;
  */
 class Csv implements iCsv
 {
+    use pathFinder;
+
     /**
      * Full file path.
      *
      * @var string
      */
-    protected $filePath;
+    private $filePath;
+
+    /**
+     * File extension name.
+     *
+     * @var string
+     */
+    private $extension = '.csv';
 
     /**
      * Fetched data from file.
@@ -59,10 +69,11 @@ class Csv implements iCsv
      * Create a CSV File Handler instance.
      *
      * @param array $mode
+     * @throws \Exception if unable to get a file.
      */
     public function __construct($mode = [])
     {
-        $this->filePath = basePath() . "files/data.csv";
+        $this->filePath = $this->getFilePath($this->extension);
         $this->mode = $mode ?? $this->mode;
     }
 
