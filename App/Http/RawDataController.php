@@ -11,7 +11,7 @@ class RawDataController extends Controller
 
     public function __construct()
     {
-        $this->header = header('Content-Type: text/plain');
+        //
     }
 
     public function raw( string $name )
@@ -22,6 +22,8 @@ class RawDataController extends Controller
 
             return $this->notFound();
         }
+
+        $this->header = header('Content-Type: text/plain');
 
         $name = ucfirst($name);
 

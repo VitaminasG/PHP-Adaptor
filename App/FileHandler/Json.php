@@ -59,4 +59,8 @@ class Json implements iJson
         return $data;
     }
 
+    public function write()
+    {
+        // TODO: Implement write() method.
+    }
 }

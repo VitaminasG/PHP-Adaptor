@@ -65,7 +65,7 @@ class Xml implements iXml
      * @return array
      * @throws \Exception
      */
-    public function fetchToArray()
+    public function fetchToArray(): array
     {
         if( !file_exists($this->filePath) ) {
 
@@ -99,9 +99,42 @@ class Xml implements iXml
         return $final;
     }
 
-    public function write()
+    /**
+     * Write to XML file from array.
+     *
+     * @param array $array
+     *
+     * @throws \Exception
+     */
+    public function writeFromArray(array $array)
     {
-        // TODO: Implement write() method.
+
+        $this->setLoc('files/','save');
+
+        $this->setFilePath($this->extension);
+        $this->filePath = $this->getFilePath($this->extension);
+
+        $xml = new \DOMDocument("1.0", "UTF-8");
+        $xml->formatOutput = true;
+
+        $items = $xml->createElement('items');
+        $xml->appendChild($items);
+
+        foreach ( $array as $key => $value ) {
+
+            $item = $xml->createElement('item');
+            $items->appendChild($item);
+
+            foreach ( $value as $a => $b){
+
+            $elem = $xml->createElement($a, $b);
+            $item->appendChild($elem);
+
+            }
+        }
+
+        $xml->save($this->filePath);
+
     }
 
 }
