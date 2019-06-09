@@ -11,4 +11,4 @@ use App\Core\BaseRouter as Router;
 Router::get('', 'TaskController@index');
 Router::get('raw', 'TaskController@rawList');
 
-Router::get('raw/{name}', 'RawDataController@wild', ['name' => 'csv']);
+Router::get('raw/{name}', 'RawDataController@raw');

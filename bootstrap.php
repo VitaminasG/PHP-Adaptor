@@ -10,4 +10,4 @@ use App\Core\Container as App;
 
 $app = new App();
 
-$app->direct();
+$app->run();

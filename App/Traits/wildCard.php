@@ -6,122 +6,184 @@ namespace App;
 
 trait wildCard
 {
-    private $uriList = [];
-
-    private $uriWcard = '';
-
     /**
-     * @return array
+     * WildCard list.
+     *
+     * @var array
      */
-    public function getUriList(): array
-    {
-        return $this->uriList;
-    }
+    private $WL = [];
 
     /**
-     * @param array $uriList
+     * Normal List sorted/unsorted.
+     *
+     * @var array
      */
-    public function setUriList(array $uriList)
-    {
-        $this->uriList = $uriList;
-    }
+    private $NL = [];
 
     /**
+     * Last chunk of URI.
+     *
+     * @var string
+     */
+    private $uriKey = '';
+
+    /**
+     * Targeted WildCard Controller with URI keyword.
+     *
+     * @var array
+     */
+    private $targetWC = [];
+
+    /**
+     * Get the URI keyword.
+     *
      * @return string
      */
-    public function getUriWcard(): string
+    public function getUriKey(): string
     {
-        return $this->uriWcard;
+        return $this->uriKey;
     }
 
     /**
-     * @param string $uriWcard
+     * Set the URI keyword.
+     *
+     * @param string $uriKey
      */
-    public function setUriWcard(string $uriWcard)
+    public function setUriKey(string $uriKey)
     {
-        $this->uriWcard = $uriWcard;
+        $this->uriKey = $uriKey;
     }
 
-    protected function createList(array $list)
+    /**
+     * Get the WildCard List.
+     *
+     * @return array
+     */
+    public function getWL(): array
     {
+        return $this->WL;
+    }
 
-        $array = [];
+    /**
+     * Set the WildCard List.
+     *
+     * @param array $list
+     */
+    public function setWL(array $list)
+    {
+        $this->WL = $list;
+    }
+
+    /**
+     * Get Sorted/Unsorted List.
+     *
+     * @return array
+     */
+    public function getNL(): array
+    {
+        return $this->NL;
+    }
+
+    /**
+     * Set Sorted/Unsorted List.
+     *
+     * @param array $NL
+     */
+    public function setNL(array $NL)
+    {
+        $this->NL = $NL;
+    }
+
+    /**
+     * Sorting, setting W-List & N-List.
+     *
+     * @param array $list
+     */
+    protected function createWL(array $list)
+    {
+        $tmpArr = [];
+        $tmpArr2 = [];
+        $this->setNL($list);
 
         foreach ( $list as $key => $value ) {
 
-            array_push($array, $key);
+            array_push($tmpArr, $key);
         }
 
-        $found = preg_grep("/[^\/]+[[\{]*[\w]*[\}]$/s", $array);
+        $found = preg_grep("/[^\/]+[[\{]*[\w]*[\}]$/s", $tmpArr);
 
-        $this->setUriList($found);
+        $this->removeWL($found);
+
+        foreach ( $found as $item) {
+
+            foreach ($list as $key => $value ) {
+
+                if ( $item === $key ) {
+
+                    $tmpArr2[$key] = $value;
+                }
+            }
+        }
+
+        $this->setWL($tmpArr2);
     }
 
+    /**
+     * Deleting WCards from NList.
+     *
+     * @param array $wcArr
+     *
+     * @return array
+     */
+    protected function removeWL( array $wcArr)
+    {
+        foreach ( $wcArr as $item) {
+
+            unset($this->NL[$item]);
+        }
+
+        return $this->getNL();
+    }
+
+    /**
+     * Match URI with WCard uri.
+     *
+     * @param string $uri
+     *
+     * @return bool
+     */
     protected function matchBoth(string $uri)
     {
-        $subject = "raw/bla/bla/csv";
+        $found = false;
 
-        $array = ["raw/{name}", "raw/bla/bla/{name}", "raw/yes/{name}"];
+        $this->findKeyword($uri);
 
-        $match = '';
+        foreach ( $this->WL as $key => $value) {
 
-        foreach ( $array as $item){
+            preg_match("/^(?:[\w]*+\/)*/", $uri, $first);
+            preg_match("/^(?:[\w]*+\/)*/", $key, $second);
 
-            preg_match("/^(?:[\w+]*+\/)*/", $subject, $first);
-            preg_match("/^(?:[\w+]*+\/)*/", $item, $second);
+            if( $first === $second ){
 
-            if($first === $second){
-                $match = $second;
+                $found = true;
+
+                $this->targetWC[$this->getUriKey()] = $value;
             }
-
         }
 
-        dd($match);
+        return $found;
     }
 
-    protected function findUriWcard(string $uri)
+    /**
+     * Find URI Keyword.
+     *
+     * @param string $uri
+     */
+    protected function findKeyword(string $uri)
     {
 
         preg_match("/[^\/]+[\w]*$/s", $uri, $keyword);
 
-        $this->setUriWcard($keyword);
+        $this->setUriKey($keyword[0]);
     }
-
-    protected function tempContainer()
-    {
-//
-//        $subject = "raw/bla/bla/csv";
-//
-//        $array = ["raw/{name}", "raw/bla/bla/{name}", "raw/yes/{name}"];
-//
-//        $match = '';
-//
-//        foreach ( $array as $item){
-//
-//            preg_match("/^(?:[\w+]*+\/)*/", $subject, $first);
-//            preg_match("/^(?:[\w+]*+\/)*/", $item, $second);
-//
-//            if($first === $second){
-//                $match = $second;
-//            }
-//
-//
-//        }
-//
-//        dd($match);
-//
-//        $keyword = '';
-//
-//        preg_match("/[^\/]+[\w]*$/s", $subject, $keyword);
-//
-//        dd($keyword);
-
-//        preg_match('/[^\/]+[[\{]*[\w]*[\}]$/s', $found[1], $wildcard);
-//
-//        pp($wildcard[0]);
-
-        // https://stackoverflow.com/questions/8627334/how-to-search-in-an-array-with-preg-match
-
-    }
-
 }

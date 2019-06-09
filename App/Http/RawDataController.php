@@ -4,8 +4,6 @@
 namespace App;
 
 use App\Core\Controller;
-use App\Core\Request;
-
 
 class RawDataController extends Controller
 {
@@ -13,46 +11,25 @@ class RawDataController extends Controller
 
     public function __construct()
     {
-//        $this->header = header('Content-Type: text/plain');
+        $this->header = header('Content-Type: text/plain');
     }
 
-    public function wild($name)
+    public function raw( string $name )
     {
-        dd($name);
+        $exceptArr = ['csv', 'xml', 'json'];
+
+        if( array_search($name, $exceptArr) === false ) {
+
+            return $this->notFound();
+        }
+
+        $name = ucfirst($name);
+
+        $adaptor = sprintf('\App\Adaptors\%sFileAdapter', $name);
+        $fileHandler = sprintf('\App\Handler\%s', $name);
+
+        $ext = new $adaptor( new $fileHandler() );
+
+        print( $ext->getContent() );
     }
-
-
-    /**
-     * Display raw CSV data.
-     */
-    public function rawOne()
-    {
-
-        $csv = new \App\Adaptors\CsvFileAdapter( new \App\Handler\Csv() );
-
-        print( $csv->getContent() );
-    }
-
-    /**
-     * Display raw XML data.
-     */
-    public function rawTwo()
-    {
-
-        $xml = new \App\Adaptors\XmlFileAdapter( new \App\Handler\Xml() );
-
-        print( $xml->getContent() );
-    }
-
-    /**
-     * Display raw Json data.
-     */
-    public function rawThree()
-    {
-
-        $json = new \App\Adaptors\JsonFileAdapter( new \App\Handler\Json() );
-
-        print( $json->getContent() );
-    }
-
 }

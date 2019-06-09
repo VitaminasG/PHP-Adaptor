@@ -62,7 +62,7 @@ class Container
      * Direct traffic to dedicated router.
      *
      */
-    public function direct()
+    public function run()
     {
         $router = new \App\Core\Router( new \App\Core\BaseRouter() );
 

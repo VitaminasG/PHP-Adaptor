@@ -29,9 +29,12 @@ class Router
      */
     protected $action = null;
 
+    /**
+     * Controller's method parameters.
+     *
+     * @var array
+     */
     protected $query = [];
-
-    protected $wildCard = [];
 
     /**
      * The instance of Router.
@@ -53,26 +56,49 @@ class Router
      */
     public function direct($uri, $methodType)
     {
+        // Scan the Router List for WildCards.
+        $this->createWL( $this->routes[$methodType] );
 
-        $this->createList($this->routes[$methodType]);
+        // Get The WildCard List.
+        $WildCardList = $this->getWL();
 
-        $this->setWildCard( $this->getUriList() );
+        // Push WC List to Router WC List.
+        $this->setWildCard($WildCardList);
 
-        pp($this->routes);
+        // Push new URL list without WC.
+        $this->routes[$methodType] = $this->getNL();
 
-        if ( !array_key_exists($uri, $this->routes[$methodType]) ){
+        // Search normal URL list.
+        if ( array_key_exists($uri, $this->routes[$methodType]) ){
 
+            $this->divider( $this->routes[$methodType][$uri] );
+
+            return $this->callAction(
+
+                $this->getController(),
+                $this->getAction(),
+                $this->getQuery()
+            );
+        // Search in WC List.
+        } elseif ( $this->matchBoth($uri) ) {
+
+            $call = $this->targetWC[$this->getUriKey()];
+            $this->routes['QUERY'][$call] = ['name' => $this->getUriKey()];
+            $this->divider($call);
+
+            return $this->callAction(
+
+                $this->getController(),
+                $this->getAction(),
+                $this->getQuery()
+            );
+
+        } else {
+
+            // Failed in both List's
             return $this->notFound();
         }
 
-        $this->divider($this->routes[$methodType][$uri]);
-
-        return $this->callAction(
-
-            $this->getController(),
-            $this->getAction(),
-            $this->getQuery()
-        );
     }
 
     /**
@@ -138,6 +164,8 @@ class Router
     }
 
     /**
+     * Get a Controller method parameters.
+     *
      * @return array
      */
     public function getQuery(): array
@@ -147,20 +175,14 @@ class Router
     }
 
     /**
+     * Set a Controller method parameters
+     *
      * @param string $string
      */
     public function setQuery(string $string)
     {
 
         $this->query = $this->routes['QUERY'][$string];
-    }
-
-    /**
-     * @return array
-     */
-    public function getWildCard(): array
-    {
-        return $this->wildCard;
     }
 
     /**
@@ -185,7 +207,7 @@ class Router
 
         $obj = new $controller;
 
-        return call_user_func_array([$obj, $action], $parameters );
+        return call_user_func_array( [$obj, $action], $parameters );
     }
 
     /**
@@ -197,6 +219,6 @@ class Router
 
         $controller = new \App\Core\Controller();
 
-        return $this->callAction($controller, 'notFound');
+        return $this->callAction( $controller, 'notFound' );
     }
 }
