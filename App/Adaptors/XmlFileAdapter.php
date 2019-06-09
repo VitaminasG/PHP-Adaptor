@@ -26,7 +26,6 @@ class XmlFileAdapter implements FileSystem
 
     public function getContent()
     {
-        header('Content-Type: text/plain');
 
         return $this->xml->fetchContent();
     }

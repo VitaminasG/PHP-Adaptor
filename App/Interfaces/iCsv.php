@@ -6,7 +6,7 @@ namespace App\Interfaces;
 
 interface iCsv
 {
-    public function fetchToArray();
-
     public function fetchContent();
+
+    public function fetchToArray();
 }

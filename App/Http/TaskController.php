@@ -40,36 +40,4 @@ class TaskController extends Controller
 
         return view('raw', compact('slogan'));
     }
-
-
-    /**
-     * Display raw CSV data.
-     */
-    public function taskOne()
-    {
-        $csv = new \App\Adaptors\CsvFileAdapter( new \App\Handler\Csv() );
-
-        $csv->getContent();
-    }
-
-    /**
-     * Display raw XML data.
-     */
-    public function taskTwo()
-    {
-
-        $xml = new \App\Adaptors\XmlFileAdapter( new \App\Handler\Xml() );
-
-        print_r( $xml->getContent() );
-    }
-
-    /**
-     * Display raw Json data.
-     */
-    public function taskThree()
-    {
-        $json = new \App\Adaptors\JsonFileAdapter( new \App\Handler\Json() );
-
-        pp( $json->getContent() );
-    }
 }

@@ -2,8 +2,11 @@
 
 namespace App\Core;
 
+use App\wildCard;
+
 class Router
 {
+    use wildCard;
 
     /**
      * Array list for URL with Request method type.
@@ -26,6 +29,10 @@ class Router
      */
     protected $action = null;
 
+    protected $query = [];
+
+    protected $wildCard = [];
+
     /**
      * The instance of Router.
 
@@ -47,6 +54,12 @@ class Router
     public function direct($uri, $methodType)
     {
 
+        $this->createList($this->routes[$methodType]);
+
+        $this->setWildCard( $this->getUriList() );
+
+        pp($this->routes);
+
         if ( !array_key_exists($uri, $this->routes[$methodType]) ){
 
             return $this->notFound();
@@ -57,18 +70,20 @@ class Router
         return $this->callAction(
 
             $this->getController(),
-            $this->getAction()
-
+            $this->getAction(),
+            $this->getQuery()
         );
     }
 
     /**
-     * Split and assign string.
+     * Assign and split string.
      *
      * @param string $string
      */
     protected function divider(string $string)
     {
+
+        $this->setQuery($string);
 
         list($left, $right) = explode('@', $string);
 
@@ -116,25 +131,61 @@ class Router
      *
      * @return string
      */
-    protected function getAction()
+    protected function getAction(): string
     {
 
         return $this->action;
     }
 
     /**
+     * @return array
+     */
+    public function getQuery(): array
+    {
+
+        return $this->query;
+    }
+
+    /**
+     * @param string $string
+     */
+    public function setQuery(string $string)
+    {
+
+        $this->query = $this->routes['QUERY'][$string];
+    }
+
+    /**
+     * @return array
+     */
+    public function getWildCard(): array
+    {
+        return $this->wildCard;
+    }
+
+    /**
+     * @param array $wildCard
+     */
+    public function setWildCard(array $wildCard)
+    {
+        $this->routes['WILDCARDS'] = $wildCard;
+    }
+
+    /**
      * Execute an action on the controller.
      *
-     * @param $controller
+     * @param       $controller
      * @param array $action
+     * @param array $parameters
+     *
      * @return mixed
      */
-    public function callAction($controller, $action = [])
+    public function callAction($controller, $action = [], $parameters = [])
     {
 
         $obj = new $controller;
 
-        return call_user_func_array([$obj, $action], [ $parameters = [] ] );
+        return call_user_func_array([$obj, $action], $parameters );
     }
 
     /**

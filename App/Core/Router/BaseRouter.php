@@ -59,7 +59,10 @@ class BaseRouter
 
         if ( !method_exists(self::singleton(), $name) ) {
 
-            throw new \Exception(" Method with name '{$name}', do not exist. Check routes/web.php file.");
+            throw new \Exception(
+                " Method with name '{$name}',
+                 do not exist. Check routes/web.php file."
+            );
         }
 
         return call_user_func_array([self::singleton(), $name], ...$arguments);
@@ -68,11 +71,13 @@ class BaseRouter
     /**
      * Add GET Request type Controller.
      *
-     * @param $uri
-     * @param $controller
+     * @param string $uri
+     * @param string $controller
+     * @param array $parameters
      */
-    public static function get($uri, $controller)
+    public static function get($uri, $controller, $parameters = [])
     {
+        self::$routes['QUERY'][$controller] = $parameters;
 
         self::$routes['GET'][$uri] = $controller;
     }
@@ -80,11 +85,13 @@ class BaseRouter
     /**
      * Add POST Request type Controller.
      *
-     * @param $uri
-     * @param $controller
+     * @param string $uri
+     * @param string $controller
+     * @param array $parameters
      */
-    public static function post($uri, $controller)
+    public static function post($uri, $controller, $parameters = [])
     {
+        self::$routes['QUERY'][$controller] = $parameters;
 
         self::$routes['POST'][$uri] = $controller;
     }
@@ -107,7 +114,7 @@ class BaseRouter
     public static function returnRoutes()
     {
 
-        self::singleton()->loadRoutes();
+        self::loadRoutes();
 
         return self::$routes;
     }
