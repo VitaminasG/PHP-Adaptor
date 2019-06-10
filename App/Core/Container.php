@@ -6,7 +6,6 @@ use Exception;
 
 class Container
 {
-
     /**
      * Main config file.
      *

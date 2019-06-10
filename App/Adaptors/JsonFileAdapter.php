@@ -10,6 +10,8 @@ use App\Interfaces\iJson;
 class JsonFileAdapter implements FileSystem
 {
     /**
+     * The instance of Json Interface.
+     *
      * @var iJson
      */
     private $json;
@@ -24,16 +26,33 @@ class JsonFileAdapter implements FileSystem
         $this->json = $json;
     }
 
+    /**
+     * Get Raw Data from file.
+     *
+     * @return mixed
+     */
     public function getContent()
     {
         return $this->json->fetchContent();
     }
 
+    /**
+     * Convert raw file data to array.
+     *
+     * @return array
+     */
     public function read() : array
     {
-        return $this->json->fetchContent();
+        return $this->json->fetchToArray();
     }
 
+    /**
+     * Write array to file.
+     *
+     * @param array $array
+     *
+     * @return mixed
+     */
     public function write(array $array)
     {
         $this->json->writeFromArray($array);

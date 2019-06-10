@@ -10,6 +10,8 @@ use App\Interfaces\iXml;
 class XmlFileAdapter implements FileSystem
 {
     /**
+     * The instance of Xml Interface.
+     *
      * @var iXml
      */
     private $xml;
@@ -24,17 +26,33 @@ class XmlFileAdapter implements FileSystem
         $this->xml = $xml;
     }
 
+    /**
+     * Get Raw Data from file.
+     *
+     * @return mixed
+     */
     public function getContent()
     {
-
         return $this->xml->fetchContent();
     }
 
+    /**
+     * Convert raw file data to array.
+     *
+     * @return array
+     */
     public function read() : array
     {
         return $this->xml->fetchToArray();
     }
 
+    /**
+     * Write array to file.
+     *
+     * @param array $array
+     *
+     * @return mixed
+     */
     public function write(array $array)
     {
         $this->xml->writeFromArray($array);

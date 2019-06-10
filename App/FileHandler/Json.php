@@ -60,6 +60,20 @@ class Json implements iJson
     }
 
     /**
+     * Fetch Content to array.
+     *
+     * @return array
+     */
+    public function fetchToArray() : array
+    {
+        $data = $this->fetchContent();
+
+        $array = json_decode($data, true);
+
+        return $array;
+    }
+
+    /**
      * Write to Json file from array.
      *
      * @param array $array

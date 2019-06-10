@@ -98,7 +98,6 @@ class Router
             // Failed in both List's
             return $this->notFound();
         }
-
     }
 
     /**

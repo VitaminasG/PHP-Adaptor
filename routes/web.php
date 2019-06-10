@@ -15,3 +15,4 @@ Router::get('get', 'TaskController@getList');
 
 Router::get('raw/{name}', 'RawDataController@raw');
 Router::get('write/{name}', 'WriteDataController@write');
+Router::get('get/{name}', 'FetchDataController@get');

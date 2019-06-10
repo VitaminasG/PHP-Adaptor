@@ -53,4 +53,17 @@ class TaskController extends Controller
 
         return view('write', compact('slogan'));
     }
+
+    /**
+     * Get the fetch data page.
+     *
+     * @return View
+     * @throws Exception
+     */
+    public function getList()
+    {
+        $slogan= 'Fetch Data';
+
+        return view('fetch', compact('slogan'));
+    }
 }

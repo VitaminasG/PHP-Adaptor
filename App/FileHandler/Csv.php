@@ -74,7 +74,7 @@ class Csv implements iCsv
     public function __construct($mode = [])
     {
         $this->filePath = $this->getFilePath($this->extension);
-        $this->mode = $mode ?? $this->mode;
+        $this->mode = $this->mode ?? $mode;
     }
 
     /**
