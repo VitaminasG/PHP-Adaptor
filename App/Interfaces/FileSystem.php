@@ -5,11 +5,9 @@ namespace App\Interfaces;
 
 interface FileSystem
 {
-
     public function getContent();
 
-    public function read();
+    public function read() : array;
 
-    public function write();
-
+    public function write(array $array);
 }

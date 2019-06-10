@@ -30,13 +30,13 @@ class XmlFileAdapter implements FileSystem
         return $this->xml->fetchContent();
     }
 
-    public function read()
+    public function read() : array
     {
-        // TODO: Implement read() method.
+        return $this->xml->fetchToArray();
     }
 
-    public function write()
+    public function write(array $array)
     {
-        // TODO: Implement write() method.
+        $this->xml->writeFromArray($array);
     }
 }

@@ -15,7 +15,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Get the main Page.
+     * Get the main page.
      *
      * @return View
      * @throws Exception
@@ -29,15 +29,28 @@ class TaskController extends Controller
     }
 
     /**
-     * Get the main Page.
+     * Get the raw data page.
      *
      * @return View
      * @throws Exception
      */
     public function rawList()
     {
-        $slogan= 'Raw Data';
+        $slogan= 'Get Raw Data';
 
         return view('raw', compact('slogan'));
+    }
+
+    /**
+     * Get the write data page.
+     *
+     * @return View
+     * @throws Exception
+     */
+    public function writeList()
+    {
+        $slogan= 'Write Data';
+
+        return view('write', compact('slogan'));
     }
 }

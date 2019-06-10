@@ -59,8 +59,28 @@ class Json implements iJson
         return $data;
     }
 
-    public function write()
+    /**
+     * Write to Json file from array.
+     *
+     * @param array $array
+     *
+     * @throws \Exception
+     */
+    public function writeFromArray(array $array)
     {
-        // TODO: Implement write() method.
+
+        $this->setLoc('files/','save');
+
+        $this->setFilePath($this->extension);
+        $this->filePath = $this->getFilePath($this->extension);
+
+        $json = json_encode($array, JSON_PRETTY_PRINT);
+
+        $fh = fopen($this->filePath, 'w+');
+
+        fwrite($fh, $json);
+
+        fclose($fh);
+
     }
 }

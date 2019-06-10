@@ -33,12 +33,18 @@ function view(string $name, $array = [], string $partialsPrefix = '') {
  */
 function error(string $name, $array = [], string $partialsPrefix = '') {
 
+    header("HTTP/1.0 404 Not Found");
+    header("Cache-Control: no-cache, must-revalidate");
+    header("Pragma: no-cache");
+
     $data = addItems($name, $array);
     $prefixed = prefix( $partialsPrefix, ['head'] );
 
     $view = View::singleton()->init($name, $data );
     $view->setErrorPartials($prefixed);
     $view->render();
+
+    die();
 }
 
 /**

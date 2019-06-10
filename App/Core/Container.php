@@ -114,7 +114,7 @@ class Container
      * @return mixed
      * @throws Exception
      */
-    protected function get($key)
+    public function get($key)
     {
         if(!array_key_exists($key, $this->config)){
 

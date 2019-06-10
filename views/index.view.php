@@ -14,7 +14,7 @@
             to a file. <strong>First</strong> - get a raw data from file and display.
             <strong>Second</strong> - write provided array to chosen file
             extension. <strong>Third</strong> - with Http extension request,
-            get a different data response.
+            get a different data response in array format.
         </p>
     </main>
 

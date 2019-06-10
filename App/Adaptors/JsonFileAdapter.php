@@ -29,13 +29,13 @@ class JsonFileAdapter implements FileSystem
         return $this->json->fetchContent();
     }
 
-    public function read()
+    public function read() : array
     {
-        // TODO: Implement read() method.
+        return $this->json->fetchContent();
     }
 
-    public function write()
+    public function write(array $array)
     {
-        // TODO: Implement write() method.
+        $this->json->writeFromArray($array);
     }
 }

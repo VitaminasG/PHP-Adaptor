@@ -26,17 +26,16 @@ class CsvFileAdapter implements FileSystem
 
     public function getContent()
     {
-
         return $this->cvs->fetchContent();
     }
 
-    public function read()
+    public function read() : array
     {
         return $this->cvs->fetchToArray();
     }
 
-    public function write()
+    public function write(array $array)
     {
-        // TODO: Implement write() method.
+        $this->cvs->writeFromArray($array);
     }
 }

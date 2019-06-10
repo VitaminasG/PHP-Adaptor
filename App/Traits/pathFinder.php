@@ -32,8 +32,6 @@ trait pathFinder
      * Set a file path.
      *
      * @param string $extension
-     *
-     * @throws \Exception
      */
     protected function setFilePath(string $extension)
     {
@@ -41,9 +39,7 @@ trait pathFinder
 
         if( !file_exists($path) ){
 
-            throw new \Exception(
-                "File don\'t exist with this '{$extension}'."
-            );
+            file_put_contents($path, '');
         }
 
         $this->_filePath = $path;

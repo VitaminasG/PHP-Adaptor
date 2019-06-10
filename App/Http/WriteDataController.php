@@ -3,10 +3,19 @@
 
 namespace App;
 
+
+use App\Core\Container as App;
 use App\Core\Controller;
 
-class RawDataController extends Controller
+class WriteDataController extends Controller
 {
+    /**
+     * Data for writing into file.
+     *
+     * @var array
+     */
+    protected $array = [];
+
     /**
      * Set a raw HTTP header.
      *
@@ -34,21 +43,27 @@ class RawDataController extends Controller
     }
 
     /**
-     * Display file content with WCard.
+     * Write data to file.
      *
      * @param string $name
      *
      * @throws \Exception
      */
-    public function raw( string $name )
+    public function write(string $name)
     {
         $this->checkUri($name);
 
-        $this->header = header('Content-Type: text/plain');
+        $app = new App;
+
+        $this->array = $app->get('data');
 
         $this->format($name);
 
         $ext = new $this->adaptor( new $this->fileHandler() );
+
+        $ext->write($this->array);
+
+        $this->header = header('Content-Type: text/plain');
 
         print( $ext->getContent() );
     }
@@ -85,4 +100,5 @@ class RawDataController extends Controller
             return $this->notFound();
         }
     }
+
 }

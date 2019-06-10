@@ -122,7 +122,7 @@ class Csv implements iCsv
      *
      * @return array
      */
-    public function fetchToArray()
+    public function fetchToArray() : array
     {
 
         $handler = $this->open($this->filePath, $this->mode);
@@ -161,10 +161,37 @@ class Csv implements iCsv
         $value = trim($value, '\'');
     }
 
-    public function write()
+    /**
+     * Write to CSV file from array.
+     *
+     * @param array $array
+     *
+     * @throws \Exception
+     */
+    public function writeFromArray(array $array = [])
     {
-        // TODO: Implement write() method.
+
+        $label = [];
+
+        $this->setLoc('files/','save');
+
+        $this->setFilePath($this->extension);
+        $this->filePath = $this->getFilePath($this->extension);
+
+        $fp = $this->open($this->filePath, 'w+');
+
+        foreach ( $array[0] as $key => $value ) {
+
+            $label[] = $key;
+        }
+
+        fputcsv($fp, $label);
+
+        foreach ( $array as $key => $value ) {
+
+            fputcsv($fp, $value);
+        }
+
+        $this->close($fp);
     }
-
-
 }
